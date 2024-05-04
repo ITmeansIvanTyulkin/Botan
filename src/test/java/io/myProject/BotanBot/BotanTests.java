@@ -1,10 +1,10 @@
-package io.myProject.DemoBotDraftBot;
+package io.myProject.BotanBot;
 
 import org.junit.jupiter.api.Test;
 import org.springframework.boot.test.context.SpringBootTest;
 
 @SpringBootTest
-class DemoBotDraftBotApplicationTests {
+class BotanTests {
 
 	@Test
 	void contextLoads() {

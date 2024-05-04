@@ -1,4 +1,4 @@
-package io.myProject.DemoBotDraftBot.config;
+package io.myProject.BotanBot.config;
 
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -11,9 +11,12 @@ import org.telegram.telegrambots.meta.generics.LongPollingBot;
 import org.telegram.telegrambots.meta.generics.TelegramBot;
 import org.telegram.telegrambots.updatesreceivers.DefaultBotSession;
 
+import java.util.logging.Logger;
+
 @Slf4j
 @Component
 public class BotInitializer {
+    private static final Logger LOGGER = Logger.getLogger(BotInitializer.class.getName());
     @Autowired
     TelegramBot bot;
 
@@ -23,7 +26,7 @@ public class BotInitializer {
         try {
             telegramBotsApi.registerBot((LongPollingBot) bot);
         } catch (TelegramApiException e) {
-            log.error("Ошибка " + e.getMessage());
+            LOGGER.info("Something went wrong!");
         }
     }
 }

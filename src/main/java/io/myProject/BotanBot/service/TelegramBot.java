@@ -1,8 +1,8 @@
-package io.myProject.DemoBotDraftBot.service;
+package io.myProject.BotanBot.service;
 
-import io.myProject.DemoBotDraftBot.DemoBotDraftBotApplication;
-import io.myProject.DemoBotDraftBot.config.BotConfig;
-import io.myProject.DemoBotDraftBot.waitings.Waitings;
+import io.myProject.BotanBot.bottalking.BotTalking;
+import io.myProject.BotanBot.config.BotConfig;
+import io.myProject.BotanBot.waitings.Waitings;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.stereotype.Component;
 import org.telegram.telegrambots.bots.TelegramLongPollingBot;
@@ -14,8 +14,6 @@ import org.telegram.telegrambots.meta.api.objects.InputFile;
 import org.telegram.telegrambots.meta.api.objects.Update;
 import org.telegram.telegrambots.meta.api.objects.commands.BotCommand;
 import org.telegram.telegrambots.meta.api.objects.commands.scope.BotCommandScopeDefault;
-import org.telegram.telegrambots.meta.api.objects.inlinequery.inputmessagecontent.InputTextMessageContent;
-import org.telegram.telegrambots.meta.api.objects.inlinequery.result.InlineQueryResultArticle;
 import org.telegram.telegrambots.meta.api.objects.replykeyboard.InlineKeyboardMarkup;
 import org.telegram.telegrambots.meta.api.objects.replykeyboard.ReplyKeyboardMarkup;
 import org.telegram.telegrambots.meta.api.objects.replykeyboard.buttons.InlineKeyboardButton;
@@ -36,9 +34,11 @@ public class TelegramBot extends TelegramLongPollingBot implements Waitings {
 
     static final String ANSWER_TO_USER = "Ответ пользователю: ";
     final BotConfig config;
-    private static final Map<Long, List<String>> userState = new HashMap<>();
+    public static final Map<Long, List<String>> userState = new HashMap<>();
     boolean isSearchCommandPressed = false;
     private static final Logger LOGGER = Logger.getLogger(TelegramBot.class.getName());
+
+    BotTalking botTalking = new BotTalking();
 
     public TelegramBot(BotConfig config) {
         this.config = config;
@@ -150,15 +150,24 @@ public class TelegramBot extends TelegramLongPollingBot implements Waitings {
 
                 case "\u2699 Настроить поиск":
                     sendMessage(chatId, "Отлично! Давайте настроим поиск по Вашим параметрам!");
+                    try {
+                        Thread.sleep(Waitings.WAIT_FOR_3_SEC);
+                    } catch (InterruptedException e) {
+                        throw new RuntimeException(e);
+                    }
+                    // В чате появилась кнопка для перехода на сайт для детальной настройки поиска
                     sendTheButtonToCustomize(chatId);
+                    try {
+                        Thread.sleep(WAIT_FOR_7_SEC);
+                    } catch (InterruptedException e) {
+                        throw new RuntimeException(e);
+                    }
+                    try {
+                        sendAMessageToSeeVariants(chatId);
+                    } catch (InterruptedException e) {
+                        throw new RuntimeException(e);
+                    }
                     break;
-
-//                    try {
-//                        sendAMessageToSeeVariants(chatId);
-//                    } catch (InterruptedException e) {
-//                        throw new RuntimeException(e);
-//                    }
-//                    break;
 
                 case "\u2936 Начать поиск заново!":
                     sendMessage(chatId, "Окей, не страшно, начинаем заново :)");
@@ -169,93 +178,93 @@ public class TelegramBot extends TelegramLongPollingBot implements Waitings {
                     sendMessage(chatId, "Вы выбрали аренду комнаты в квартире! Помимо Вас в квартире будут проживать ещё и другие арендаторы. Однако, это самый выгодный по цене вариант. Обычно именно с аренды комнаты в квартире начинают свою жизнь приезжие в большом городе. Позже Вы сможете переехать из комнаты в студию или квартиру, или даже дом!");
                     userState.computeIfAbsent(chatId, k -> new ArrayList<>()).add("Комната");
                     try {
-                        Thread.sleep(WAITFOR5SEC);
+                        Thread.sleep(WAIT_FOR_5_SEC);
                     } catch (InterruptedException e) {
                         throw new RuntimeException(e);
                     }
                     sendAMessageThatIDoYourReplies(chatId);
                     try {
-                        Thread.sleep(WAITFOR5SEC);
+                        Thread.sleep(WAIT_FOR_5_SEC);
                     } catch (InterruptedException e) {
                         throw new RuntimeException(e);
                     }
                     break;
 
                 case "Студия":
-                    sendMessage(chatId, "Вы выбрали студию. " + DemoBotDraftBotApplication.botTalking());
+                    sendMessage(chatId, "Вы выбрали студию. " + botTalking.botTalking());
                     userState.computeIfAbsent(chatId, k -> new ArrayList<>()).add("Студия");
                     try {
-                        Thread.sleep(WAITFOR3SEC);
+                        Thread.sleep(WAIT_FOR_3_SEC);
                     } catch (InterruptedException e) {
                         throw new RuntimeException(e);
                     }
                     sendParameterPeople(chatId);
                     try {
-                        Thread.sleep(WAITFOR5SEC);
+                        Thread.sleep(WAIT_FOR_5_SEC);
                     } catch (InterruptedException e) {
                         throw new RuntimeException(e);
                     }
                     break;
 
                 case "1-комнатная":
-                    sendMessage(chatId, "Вы выбрали 1-комнатную квартиру! " + DemoBotDraftBotApplication.botTalking());
+                    sendMessage(chatId, "Вы выбрали 1-комнатную квартиру! " + botTalking.botTalking());
                     userState.computeIfAbsent(chatId, k -> new ArrayList<>()).add("1-комнатная квартира");
                     try {
-                        Thread.sleep(WAITFOR3SEC);
+                        Thread.sleep(WAIT_FOR_3_SEC);
                     } catch (InterruptedException e) {
                         throw new RuntimeException(e);
                     }
                     sendParameterPeople(chatId);
                     try {
-                        Thread.sleep(WAITFOR5SEC);
+                        Thread.sleep(WAIT_FOR_5_SEC);
                     } catch (InterruptedException e) {
                         throw new RuntimeException(e);
                     }
                     break;
 
                 case "2-комнатная":
-                    sendMessage(chatId, "Вы выбрали 2-комнатную квартиру! " + DemoBotDraftBotApplication.botTalking());
+                    sendMessage(chatId, "Вы выбрали 2-комнатную квартиру! " + botTalking.botTalking());
                     userState.computeIfAbsent(chatId, k -> new ArrayList<>()).add("2-комнатная квартира");
                     try {
-                        Thread.sleep(WAITFOR3SEC);
+                        Thread.sleep(WAIT_FOR_3_SEC);
                     } catch (InterruptedException e) {
                         throw new RuntimeException(e);
                     }
                     sendParameterPeople(chatId);
                     try {
-                        Thread.sleep(WAITFOR5SEC);
+                        Thread.sleep(WAIT_FOR_5_SEC);
                     } catch (InterruptedException e) {
                         throw new RuntimeException(e);
                     }
                     break;
 
                 case "3-комнатная":
-                    sendMessage(chatId, "Вы выбрали 3-комнатную квартиру! " + DemoBotDraftBotApplication.botTalking());
+                    sendMessage(chatId, "Вы выбрали 3-комнатную квартиру! " + botTalking.botTalking());
                     userState.computeIfAbsent(chatId, k -> new ArrayList<>()).add("3-комнатная квартира");
                     try {
-                        Thread.sleep(WAITFOR3SEC);
+                        Thread.sleep(WAIT_FOR_3_SEC);
                     } catch (InterruptedException e) {
                         throw new RuntimeException(e);
                     }
                     sendParameterPeople(chatId);
                     try {
-                        Thread.sleep(WAITFOR5SEC);
+                        Thread.sleep(WAIT_FOR_5_SEC);
                     } catch (InterruptedException e) {
                         throw new RuntimeException(e);
                     }
                     break;
 
                 case "Дом":
-                    sendMessage(chatId, "Вы выбрали дом! " + DemoBotDraftBotApplication.botTalking());
+                    sendMessage(chatId, "Вы выбрали дом! " + botTalking.botTalking());
                     userState.computeIfAbsent(chatId, k -> new ArrayList<>()).add("Дом");
                     try {
-                        Thread.sleep(WAITFOR3SEC);
+                        Thread.sleep(WAIT_FOR_3_SEC);
                     } catch (InterruptedException e) {
                         throw new RuntimeException(e);
                     }
                     sendParameterPeople(chatId);
                     try {
-                        Thread.sleep(WAITFOR5SEC);
+                        Thread.sleep(WAIT_FOR_5_SEC);
                     } catch (InterruptedException e) {
                         throw new RuntimeException(e);
                     }
@@ -265,13 +274,13 @@ public class TelegramBot extends TelegramLongPollingBot implements Waitings {
                     sendMessage(chatId, "Записал Ваш ответ: Вы будете проживать один(-а), хорошо. ");
                     userState.computeIfAbsent(chatId, k -> new ArrayList<>()).add("Проживать будет 1 человек.");
                     try {
-                        Thread.sleep(WAITFOR3SEC);
+                        Thread.sleep(WAIT_FOR_3_SEC);
                     } catch (InterruptedException e) {
                         throw new RuntimeException(e);
                     }
                     sendAMessageThatIDoYourReplies(chatId);
                     try {
-                        Thread.sleep(WAITFOR5SEC);
+                        Thread.sleep(WAIT_FOR_5_SEC);
                     } catch (InterruptedException e) {
                         throw new RuntimeException(e);
                     }
@@ -282,13 +291,13 @@ public class TelegramBot extends TelegramLongPollingBot implements Waitings {
                     sendMessage(chatId, "Записал Ваш ответ: проживать будут 2 человека, хорошо. ");
                     userState.computeIfAbsent(chatId, k -> new ArrayList<>()).add("Проживать будет 2 человека.");
                     try {
-                        Thread.sleep(WAITFOR3SEC);
+                        Thread.sleep(WAIT_FOR_3_SEC);
                     } catch (InterruptedException e) {
                         throw new RuntimeException(e);
                     }
                     sendAMessageThatIDoYourReplies(chatId);
                     try {
-                        Thread.sleep(WAITFOR5SEC);
+                        Thread.sleep(WAIT_FOR_5_SEC);
                     } catch (InterruptedException e) {
                         throw new RuntimeException(e);
                     }
@@ -299,13 +308,13 @@ public class TelegramBot extends TelegramLongPollingBot implements Waitings {
                     sendMessage(chatId, "Записал Ваш ответ: проживать будут 3 человека, хорошо. ");
                     userState.computeIfAbsent(chatId, k -> new ArrayList<>()).add("Проживать будет 3 человека.");
                     try {
-                        Thread.sleep(WAITFOR3SEC);
+                        Thread.sleep(WAIT_FOR_3_SEC);
                     } catch (InterruptedException e) {
                         throw new RuntimeException(e);
                     }
                     sendAMessageThatIDoYourReplies(chatId);
                     try {
-                        Thread.sleep(WAITFOR5SEC);
+                        Thread.sleep(WAIT_FOR_5_SEC);
                     } catch (InterruptedException e) {
                         throw new RuntimeException(e);
                     }
@@ -316,13 +325,13 @@ public class TelegramBot extends TelegramLongPollingBot implements Waitings {
                     sendMessage(chatId, "Записал Ваш ответ: проживать будут 4 человека, хорошо. ");
                     userState.computeIfAbsent(chatId, k -> new ArrayList<>()).add("Проживать будет 4 человека.");
                     try {
-                        Thread.sleep(WAITFOR3SEC);
+                        Thread.sleep(WAIT_FOR_3_SEC);
                     } catch (InterruptedException e) {
                         throw new RuntimeException(e);
                     }
                     sendAMessageThatIDoYourReplies(chatId);
                     try {
-                        Thread.sleep(WAITFOR5SEC);
+                        Thread.sleep(WAIT_FOR_5_SEC);
                     } catch (InterruptedException e) {
                         throw new RuntimeException(e);
                     }
@@ -333,13 +342,13 @@ public class TelegramBot extends TelegramLongPollingBot implements Waitings {
                     sendMessage(chatId, "Записал Ваш ответ: проживать будут 5 человек, хорошо. ");
                     userState.computeIfAbsent(chatId, k -> new ArrayList<>()).add("Проживать будет 5 человек.");
                     try {
-                        Thread.sleep(WAITFOR3SEC);
+                        Thread.sleep(WAIT_FOR_3_SEC);
                     } catch (InterruptedException e) {
                         throw new RuntimeException(e);
                     }
                     sendAMessageThatIDoYourReplies(chatId);
                     try {
-                        Thread.sleep(WAITFOR5SEC);
+                        Thread.sleep(WAIT_FOR_5_SEC);
                     } catch (InterruptedException e) {
                         throw new RuntimeException(e);
                     }
@@ -350,13 +359,13 @@ public class TelegramBot extends TelegramLongPollingBot implements Waitings {
                     sendMessage(chatId, "Записал Ваш ответ: проживать будут более 5 человек, хорошо. ");
                     userState.computeIfAbsent(chatId, k -> new ArrayList<>()).add("Проживать будут более 5 человек.");
                     try {
-                        Thread.sleep(WAITFOR3SEC);
+                        Thread.sleep(WAIT_FOR_3_SEC);
                     } catch (InterruptedException e) {
                         throw new RuntimeException(e);
                     }
                     sendAMessageThatIDoYourReplies(chatId);
                     try {
-                        Thread.sleep(WAITFOR5SEC);
+                        Thread.sleep(WAIT_FOR_5_SEC);
                     } catch (InterruptedException e) {
                         throw new RuntimeException(e);
                     }
@@ -657,7 +666,7 @@ public class TelegramBot extends TelegramLongPollingBot implements Waitings {
     private void sendAMessageToSeeVariants(long chatId) throws InterruptedException {
         SendMessage message = new SendMessage();
         message.setChatId(String.valueOf(chatId));
-        Thread.sleep(WAITFOR5SEC);
+        Thread.sleep(WAIT_FOR_5_SEC);
         message.setText("Смотрите, что я нашёл! Нажмите кнопку ниже - 'Посмотреть варианты'");
         ReplyKeyboardMarkup replyMarkup = seeTheVariantsButton();
         message.setReplyMarkup(replyMarkup);
@@ -693,12 +702,11 @@ public class TelegramBot extends TelegramLongPollingBot implements Waitings {
         SendMessage message = new SendMessage();
         message.setChatId(String.valueOf(chatId));
         String parameters = "<b>" + userState.get(chatId).toString().toUpperCase() + "</b>";
-        message.setText("Отлично, я записал Ваши пожелания! Я буду искать для Вас недвижимость по параметрам: \n\n" + parameters + "\n\nТеперь давайте настроим поиск по цене аренды, выбору района, этажу и желаемой площади квартиры. Для этого нажмите кнопку  <b> 'Настроить поиск' </b>. Если нужен поиск по другим параметрам, нажмите кнопку <b> 'Нет! Начать заново!' </b>");
+        message.setText("Отлично, я записал Ваши пожелания! Я буду искать для Вас недвижимость по параметрам: \n\n" + parameters + "\n\nТеперь давайте настроим поиск по цене аренды, выбору района, этажу и желаемой площади квартиры. Для этого нажмите кнопку  <b> 'Настроить поиск' </b>. Если нужен поиск по другим параметрам, нажмите кнопку <b> 'Начать поиск заново!' </b>");
         message.setParseMode(ParseMode.HTML);
 
         ReplyKeyboardMarkup replyMarkup = confirmTheChoice();
         message.setReplyMarkup(replyMarkup);
-        userState.get(chatId).clear();
 
         try {
             execute(message);
@@ -711,7 +719,7 @@ public class TelegramBot extends TelegramLongPollingBot implements Waitings {
         ReplyKeyboardMarkup replyMarkup = new ReplyKeyboardMarkup();
         replyMarkup.setSelective(true);
         replyMarkup.setResizeKeyboard(true);
-        replyMarkup.setOneTimeKeyboard(false);
+        replyMarkup.setOneTimeKeyboard(true);
 
         List<KeyboardRow> keyboard = new ArrayList<>();
         KeyboardRow row1 = new KeyboardRow();
@@ -751,8 +759,11 @@ public class TelegramBot extends TelegramLongPollingBot implements Waitings {
         // Создаем объект для отправки сообщения
         SendMessage message = new SendMessage();
         message.setChatId(String.valueOf(chatId));
-        message.setText("Для настройки поиска, нажмите, пожалуйста, кнопку ниже:");
+        message.setText("Для точной настройки поиска, нажмите, пожалуйста, кнопку ниже:");
         message.setReplyMarkup(markup);
+
+        // Очищаю массив данных от пользователя
+        userState.get(chatId).clear();
 
         try {
             // Отправляем сообщение
