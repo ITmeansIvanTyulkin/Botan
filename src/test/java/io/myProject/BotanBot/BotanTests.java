@@ -9,5 +9,4 @@ class BotanTests {
 	@Test
 	void contextLoads() {
 	}
-
 }

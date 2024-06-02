@@ -32,7 +32,7 @@ import java.util.logging.Logger;
 @Component
 public class TelegramBot extends TelegramLongPollingBot implements Waitings {
 
-    static final String ANSWER_TO_USER = "Ответ пользователю: ";
+    public static final String ANSWER_TO_USER = "Ответ пользователю: ";
     final BotConfig config;
     public static final Map<Long, List<String>> userState = new HashMap<>();
     boolean isSearchCommandPressed = false;

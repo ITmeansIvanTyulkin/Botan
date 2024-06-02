@@ -9,6 +9,4 @@ public class Botan {
 	public static void main(String[] args) {
 		SpringApplication.run(Botan.class, args);
 	}
-
-
 }
