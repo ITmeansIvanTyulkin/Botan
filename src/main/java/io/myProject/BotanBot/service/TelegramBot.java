@@ -2,6 +2,7 @@ package io.myProject.BotanBot.service;
 
 import io.myProject.BotanBot.bottalking.BotTalking;
 import io.myProject.BotanBot.config.BotConfig;
+import io.myProject.BotanBot.texts.TextsToRespond;
 import io.myProject.BotanBot.waitings.Waitings;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.stereotype.Component;
@@ -82,21 +83,21 @@ public class TelegramBot extends TelegramLongPollingBot implements Waitings {
                     searchCommandReceived(chatId, update.getMessage().getChat().getFirstName());
                     break;
 
-                case "Москва":
-                    sendMessage(chatId, "Вы выбрали город Москва.");
-                    userState.computeIfAbsent(chatId, k -> new ArrayList<>()).add("город Москва");
+                case "Личный кабинет":
+                    sendMessage(chatId, "Вы выбрали 'Личный кабинет'.");
+                    userState.computeIfAbsent(chatId, k -> new ArrayList<>()).add("Личный кабинет");
                     sendParameterOfTheNewMenuMoscow(chatId);
                     break;
 
-                case "Питер":
-                    sendMessage(chatId, "Вы выбрали город Санкт-Петербург.");
-                    userState.computeIfAbsent(chatId, k -> new ArrayList<>()).add("город Санкт-Петербург");
+                case "Возможности бота":
+                    sendMessage(chatId, "Вы выбрали 'Возможности бота'.");
+                    userState.computeIfAbsent(chatId, k -> new ArrayList<>()).add("Возможности бота");
                     sendParameterOfTheNewMenuPiter(chatId);
                     break;
 
-                case "Сочи":
-                    sendMessage(chatId, "Вы выбрали город Сочи.");
-                    userState.computeIfAbsent(chatId, k -> new ArrayList<>()).add("город Сочи");
+                case "Оформить подписку":
+                    sendMessage(chatId, "Вы выбрали 'Оформить подписку'.");
+                    userState.computeIfAbsent(chatId, k -> new ArrayList<>()).add("Оформить подписку");
                     sendParameterOfTheNewMenuSochi(chatId);
                     break;
 
@@ -104,49 +105,37 @@ public class TelegramBot extends TelegramLongPollingBot implements Waitings {
                     sendMessage(chatId, "Вы выбрали объект недвижимости в рамках МКАДа!");
                     userState.computeIfAbsent(chatId, k -> new ArrayList<>()).add("В рамках МКАДа");
                     sendParameterMenu(chatId);
-                    break;
+                    break; // TODO оставить для других кнопок.
 
                 case "За МКАДом":
                     sendMessage(chatId, "Вы выбрали объект недвижимости за МКАДом!");
                     userState.computeIfAbsent(chatId, k -> new ArrayList<>()).add("За МКАДом");
                     sendParameterMenu(chatId);
-                    break;
+                    break; // TODO оставить для других кнопок.
 
                 case "В рамках ЗСД":
                     sendMessage(chatId, "Вы выбрали объект недвижимости в рамках ЗСД!");
                     userState.computeIfAbsent(chatId, k -> new ArrayList<>()).add("В рамках ЗСД");
                     sendParameterMenu(chatId);
-                    break;
+                    break; // TODO оставить для других кнопок.
 
                 case "За ЗСД":
                     sendMessage(chatId, "Вы выбрали объект недвижимости За ЗСД!");
                     userState.computeIfAbsent(chatId, k -> new ArrayList<>()).add("За ЗСД");
                     sendParameterMenu(chatId);
-                    break;
+                    break; // TODO оставить для других кнопок.
 
                 case "Ленобласть":
                     sendMessage(chatId, "Вы выбрали объект недвижимости в Ленобласти!");
                     userState.computeIfAbsent(chatId, k -> new ArrayList<>()).add("Ленобласть");
                     sendParameterMenu(chatId);
-                    break;
+                    break; // TODO оставить для других кнопок.
 
                 case "Адлер":
                     sendMessage(chatId, "Вы выбрали объект недвижимости в Адлере!");
                     userState.computeIfAbsent(chatId, k -> new ArrayList<>()).add("район Адлер");
                     sendParameterMenu(chatId);
-                    break;
-
-                case "Лазоревское":
-                    sendMessage(chatId, "Вы выбрали объект недвижимости в Лазоревском!");
-                    userState.computeIfAbsent(chatId, k -> new ArrayList<>()).add("район Лазоревское");
-                    sendParameterMenu(chatId);
-                    break;
-
-                case "город Сочи":
-                    sendMessage(chatId, "Вы выбрали объект недвижимости в Сочи!");
-                    userState.computeIfAbsent(chatId, k -> new ArrayList<>()).add("город Сочи");
-                    sendParameterMenu(chatId);
-                    break;
+                    break; // TODO оставить для других кнопок.
 
                 case "\u2699 Настроить поиск":
                     sendMessage(chatId, "Отлично! Давайте настроим поиск по Вашим параметрам!");
@@ -167,12 +156,12 @@ public class TelegramBot extends TelegramLongPollingBot implements Waitings {
                     } catch (InterruptedException e) {
                         throw new RuntimeException(e);
                     }
-                    break;
+                    break; // TODO оставить для других кнопок.
 
                 case "\u2936 Начать поиск заново!":
                     sendMessage(chatId, "Окей, не страшно, начинаем заново :)");
                     searchCommandReceived(chatId, update.getMessage().getChat().getFirstName());
-                    break;
+                    break; // TODO оставить для других кнопок.
 
                 case "Комната":
                     sendMessage(chatId, "Вы выбрали аренду комнаты в квартире! Помимо Вас в квартире будут проживать ещё и другие арендаторы. Однако, это самый выгодный по цене вариант. Обычно именно с аренды комнаты в квартире начинают свою жизнь приезжие в большом городе. Позже Вы сможете переехать из комнаты в студию или квартиру, или даже дом!");
@@ -188,87 +177,7 @@ public class TelegramBot extends TelegramLongPollingBot implements Waitings {
                     } catch (InterruptedException e) {
                         throw new RuntimeException(e);
                     }
-                    break;
-
-                case "Студия":
-                    sendMessage(chatId, "Вы выбрали студию. " + botTalking.botTalking());
-                    userState.computeIfAbsent(chatId, k -> new ArrayList<>()).add("Студия");
-                    try {
-                        Thread.sleep(WAIT_FOR_3_SEC);
-                    } catch (InterruptedException e) {
-                        throw new RuntimeException(e);
-                    }
-                    sendParameterPeople(chatId);
-                    try {
-                        Thread.sleep(WAIT_FOR_5_SEC);
-                    } catch (InterruptedException e) {
-                        throw new RuntimeException(e);
-                    }
-                    break;
-
-                case "1-комнатная":
-                    sendMessage(chatId, "Вы выбрали 1-комнатную квартиру! " + botTalking.botTalking());
-                    userState.computeIfAbsent(chatId, k -> new ArrayList<>()).add("1-комнатная квартира");
-                    try {
-                        Thread.sleep(WAIT_FOR_3_SEC);
-                    } catch (InterruptedException e) {
-                        throw new RuntimeException(e);
-                    }
-                    sendParameterPeople(chatId);
-                    try {
-                        Thread.sleep(WAIT_FOR_5_SEC);
-                    } catch (InterruptedException e) {
-                        throw new RuntimeException(e);
-                    }
-                    break;
-
-                case "2-комнатная":
-                    sendMessage(chatId, "Вы выбрали 2-комнатную квартиру! " + botTalking.botTalking());
-                    userState.computeIfAbsent(chatId, k -> new ArrayList<>()).add("2-комнатная квартира");
-                    try {
-                        Thread.sleep(WAIT_FOR_3_SEC);
-                    } catch (InterruptedException e) {
-                        throw new RuntimeException(e);
-                    }
-                    sendParameterPeople(chatId);
-                    try {
-                        Thread.sleep(WAIT_FOR_5_SEC);
-                    } catch (InterruptedException e) {
-                        throw new RuntimeException(e);
-                    }
-                    break;
-
-                case "3-комнатная":
-                    sendMessage(chatId, "Вы выбрали 3-комнатную квартиру! " + botTalking.botTalking());
-                    userState.computeIfAbsent(chatId, k -> new ArrayList<>()).add("3-комнатная квартира");
-                    try {
-                        Thread.sleep(WAIT_FOR_3_SEC);
-                    } catch (InterruptedException e) {
-                        throw new RuntimeException(e);
-                    }
-                    sendParameterPeople(chatId);
-                    try {
-                        Thread.sleep(WAIT_FOR_5_SEC);
-                    } catch (InterruptedException e) {
-                        throw new RuntimeException(e);
-                    }
-                    break;
-
-                case "Дом":
-                    sendMessage(chatId, "Вы выбрали дом! " + botTalking.botTalking());
-                    userState.computeIfAbsent(chatId, k -> new ArrayList<>()).add("Дом");
-                    try {
-                        Thread.sleep(WAIT_FOR_3_SEC);
-                    } catch (InterruptedException e) {
-                        throw new RuntimeException(e);
-                    }
-                    sendParameterPeople(chatId);
-                    try {
-                        Thread.sleep(WAIT_FOR_5_SEC);
-                    } catch (InterruptedException e) {
-                        throw new RuntimeException(e);
-                    }
-                    break;
+                    break; // TODO оставить для других кнопок.
 
                 case "1 человек":
                     sendMessage(chatId, "Записал Ваш ответ: Вы будете проживать один(-а), хорошо. ");
@@ -285,102 +194,17 @@ public class TelegramBot extends TelegramLongPollingBot implements Waitings {
                         throw new RuntimeException(e);
                     }
                     sendAMessageThatIAmReadyToRepeatYourChoice(chatId);
-                    break;
-
-                case "2 человека":
-                    sendMessage(chatId, "Записал Ваш ответ: проживать будут 2 человека, хорошо. ");
-                    userState.computeIfAbsent(chatId, k -> new ArrayList<>()).add("Проживать будет 2 человека.");
-                    try {
-                        Thread.sleep(WAIT_FOR_3_SEC);
-                    } catch (InterruptedException e) {
-                        throw new RuntimeException(e);
-                    }
-                    sendAMessageThatIDoYourReplies(chatId);
-                    try {
-                        Thread.sleep(WAIT_FOR_5_SEC);
-                    } catch (InterruptedException e) {
-                        throw new RuntimeException(e);
-                    }
-                    sendAMessageThatIAmReadyToRepeatYourChoice(chatId);
-                    break;
-
-                case "3 человека":
-                    sendMessage(chatId, "Записал Ваш ответ: проживать будут 3 человека, хорошо. ");
-                    userState.computeIfAbsent(chatId, k -> new ArrayList<>()).add("Проживать будет 3 человека.");
-                    try {
-                        Thread.sleep(WAIT_FOR_3_SEC);
-                    } catch (InterruptedException e) {
-                        throw new RuntimeException(e);
-                    }
-                    sendAMessageThatIDoYourReplies(chatId);
-                    try {
-                        Thread.sleep(WAIT_FOR_5_SEC);
-                    } catch (InterruptedException e) {
-                        throw new RuntimeException(e);
-                    }
-                    sendAMessageThatIAmReadyToRepeatYourChoice(chatId);
-                    break;
-
-                case "4 человека":
-                    sendMessage(chatId, "Записал Ваш ответ: проживать будут 4 человека, хорошо. ");
-                    userState.computeIfAbsent(chatId, k -> new ArrayList<>()).add("Проживать будет 4 человека.");
-                    try {
-                        Thread.sleep(WAIT_FOR_3_SEC);
-                    } catch (InterruptedException e) {
-                        throw new RuntimeException(e);
-                    }
-                    sendAMessageThatIDoYourReplies(chatId);
-                    try {
-                        Thread.sleep(WAIT_FOR_5_SEC);
-                    } catch (InterruptedException e) {
-                        throw new RuntimeException(e);
-                    }
-                    sendAMessageThatIAmReadyToRepeatYourChoice(chatId);
-                    break;
-
-                case "5 человек":
-                    sendMessage(chatId, "Записал Ваш ответ: проживать будут 5 человек, хорошо. ");
-                    userState.computeIfAbsent(chatId, k -> new ArrayList<>()).add("Проживать будет 5 человек.");
-                    try {
-                        Thread.sleep(WAIT_FOR_3_SEC);
-                    } catch (InterruptedException e) {
-                        throw new RuntimeException(e);
-                    }
-                    sendAMessageThatIDoYourReplies(chatId);
-                    try {
-                        Thread.sleep(WAIT_FOR_5_SEC);
-                    } catch (InterruptedException e) {
-                        throw new RuntimeException(e);
-                    }
-                    sendAMessageThatIAmReadyToRepeatYourChoice(chatId);
-                    break;
-
-                case "Более 5 человек":
-                    sendMessage(chatId, "Записал Ваш ответ: проживать будут более 5 человек, хорошо. ");
-                    userState.computeIfAbsent(chatId, k -> new ArrayList<>()).add("Проживать будут более 5 человек.");
-                    try {
-                        Thread.sleep(WAIT_FOR_3_SEC);
-                    } catch (InterruptedException e) {
-                        throw new RuntimeException(e);
-                    }
-                    sendAMessageThatIDoYourReplies(chatId);
-                    try {
-                        Thread.sleep(WAIT_FOR_5_SEC);
-                    } catch (InterruptedException e) {
-                        throw new RuntimeException(e);
-                    }
-                    sendAMessageThatIAmReadyToRepeatYourChoice(chatId);
-                    break;
+                    break; // TODO оставить для других кнопок.
 
                 case "Посмотреть варианты":
                     sendMessage(chatId, "Отлично, смотрим!");
                     sendPaymentImage(chatId);
-                    break;
+                    break; // TODO оставить для других кнопок.
 
                 case "Начать поиск заново!":
                     sendMessage(chatId, "Отлично, ищем заново!");
                     searchCommandReceived(chatId, update.getMessage().getChat().getFirstName());
-                    break;
+                    break; // TODO оставить для других кнопок.
 
                 default:
                     sendMessageWithButtonChooseTheCity(chatId, "Я не знаю, что на это ответить... Напишите подробно Ваш вопрос, а я поищу свободного оператора, который сможет Вам помочь!");
@@ -389,30 +213,19 @@ public class TelegramBot extends TelegramLongPollingBot implements Waitings {
     }
 
     private void startCommandReceived(long chatId, String name) {
-        String answer1 = "Привет, " + name + ", приятно познакомиться! Меня зовут Бот@Н, я могу найти для Вас жилую недвижимость для аренды," +
-                " как посуточно, так и длительно. Я работаю в городах Москва, Санкт-Петербург и Сочи. Чтобы" +
-                " найти комнату, студию, квартиру, апартаменты, таунхаус или даже дом для проживания, нажмите, пожалуйста, 'search' и выберете" +
-                " город, в котором Вы желаете арендовать. Далее заполните всего 3 поля и через несколько секунд я выдам Вам результат! Я работаю" +
-                " только с собственниками помещений, НЕ риэлторами. Желаю Вам, как можно скорее найти прекрасный вариант для аренды!";
+        String answer1 = "Привет, " + name + TextsToRespond.GREETINGS;
         LOGGER.info(ANSWER_TO_USER + name);
         sendMessageWithButtonChooseTheCity(chatId, answer1);
     }
 
     private void searchCommandReceived(long chatId, String name) {
-        String answer3 = "Итак, " + name + ", пора найти лучшее предложение по аренде для Вас! Внизу есть три города - Москва, Санкт-Петербург и Сочи - в" +
-                " которых я работаю. Выберете тот город, в котором Вы желаете найти аренду жилой недвижимости - на сутки или длительно!";
+        String answer3 = "Итак, " + name + TextsToRespond.INTRO;
         LOGGER.info(ANSWER_TO_USER + name);
         sendMessageWithButtonChooseTheCity(chatId, answer3);
     }
 
     private void helpCommandReceived(long chatId, String name) {
-        String answer4 = name + ", вот информация о том, кто мы и что конкретно я умею делать. Итак, я имею доступ к базе данных недвижимости собственников" +
-                " жилья. В нашей базе данных более 2500 различных предложений. Все объекты недвижимости проверены, но иногда попадаются" +
-                " риэлторы, которые притворяются собственниками и желают на этом заработать. Если Вы, вдруг, столкнётесь с подобным  фактом," +
-                " пожалуйста, не попадайтесь. Ваше право, конечно, работать с риэлторами, но разве Вас не смущает момент, что человек уже обманывает Вас," +
-                " притворяясь владельцем квартиры, студии или комнаты? Так что работать ли с таким человеком - сугубо на Ваше усмотрение. Я же, в свою" +
-                " очередь, напоминаю, что ищу для Вас интересующие Вас помещения ТОЛЬКО от собственника. Что ещё я умею: 1. Чтобы найти жилую недвижимость в аренду," +
-                " нажмите /search. 2. Кнопку /help Вы уже нажали, раз читаете этот текст. Итак, я готов к работе!";
+        String answer4 = name + TextsToRespond.INFO;
         LOGGER.info(ANSWER_TO_USER + name);
         sendMessageWithButtonChooseTheCity(chatId, answer4);
     }
