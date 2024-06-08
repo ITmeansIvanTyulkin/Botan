@@ -2,7 +2,6 @@ package io.myProject.BotanBot.service;
 
 import io.myProject.BotanBot.bottalking.BotTalking;
 import io.myProject.BotanBot.config.BotConfig;
-import io.myProject.BotanBot.texts.TextsToRespond;
 import io.myProject.BotanBot.waitings.Waitings;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.stereotype.Component;
@@ -113,30 +112,6 @@ public class TelegramBot extends TelegramLongPollingBot implements Waitings {
                     sendParameterMenu(chatId);
                     break; // TODO оставить для других кнопок.
 
-                case "В рамках ЗСД":
-                    sendMessage(chatId, "Вы выбрали объект недвижимости в рамках ЗСД!");
-                    userState.computeIfAbsent(chatId, k -> new ArrayList<>()).add("В рамках ЗСД");
-                    sendParameterMenu(chatId);
-                    break; // TODO оставить для других кнопок.
-
-                case "За ЗСД":
-                    sendMessage(chatId, "Вы выбрали объект недвижимости За ЗСД!");
-                    userState.computeIfAbsent(chatId, k -> new ArrayList<>()).add("За ЗСД");
-                    sendParameterMenu(chatId);
-                    break; // TODO оставить для других кнопок.
-
-                case "Ленобласть":
-                    sendMessage(chatId, "Вы выбрали объект недвижимости в Ленобласти!");
-                    userState.computeIfAbsent(chatId, k -> new ArrayList<>()).add("Ленобласть");
-                    sendParameterMenu(chatId);
-                    break; // TODO оставить для других кнопок.
-
-                case "Адлер":
-                    sendMessage(chatId, "Вы выбрали объект недвижимости в Адлере!");
-                    userState.computeIfAbsent(chatId, k -> new ArrayList<>()).add("район Адлер");
-                    sendParameterMenu(chatId);
-                    break; // TODO оставить для других кнопок.
-
                 case "\u2699 Настроить поиск":
                     sendMessage(chatId, "Отлично! Давайте настроим поиск по Вашим параметрам!");
                     try {
@@ -213,19 +188,22 @@ public class TelegramBot extends TelegramLongPollingBot implements Waitings {
     }
 
     private void startCommandReceived(long chatId, String name) {
-        String answer1 = "Привет, " + name + TextsToRespond.GREETINGS;
+        String prompt = botTalking.loadMessage("greetings");
+        String answer1 = "Привет, " + name + prompt;
         LOGGER.info(ANSWER_TO_USER + name);
         sendMessageWithButtonChooseTheCity(chatId, answer1);
     }
 
     private void searchCommandReceived(long chatId, String name) {
-        String answer3 = "Итак, " + name + TextsToRespond.INTRO;
+        String prompt = botTalking.loadMessage("intro");
+        String answer3 = "Итак, " + name + prompt;
         LOGGER.info(ANSWER_TO_USER + name);
         sendMessageWithButtonChooseTheCity(chatId, answer3);
     }
 
     private void helpCommandReceived(long chatId, String name) {
-        String answer4 = name + TextsToRespond.INFO;
+        String prompt = botTalking.loadMessage("info");
+        String answer4 = name + prompt;
         LOGGER.info(ANSWER_TO_USER + name);
         sendMessageWithButtonChooseTheCity(chatId, answer4);
     }
